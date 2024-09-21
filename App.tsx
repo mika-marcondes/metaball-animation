@@ -12,10 +12,18 @@ export default function App() {
     const cx = useSharedValue(windowWidth / 2);
     const cy = useSharedValue(windowHeight / 2);
 
+    const context = useSharedValue({x: 0, y: 0});
+
     const gestureHandler = useGestureHandler({
+        onStart: () => {
+            context.value = {
+                x: cx.value,
+                y: cy.value,
+            }
+        },
         onActive: ({translationX, translationY}) => {
-            cx.value = translationX;
-            cy.value = translationY;
+            cx.value = context.value.x + translationX;
+            cy.value = context.value.y + translationY;
         }
     })
 
